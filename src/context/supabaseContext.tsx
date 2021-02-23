@@ -22,7 +22,6 @@ export const SupabaseContextProvider: React.FC = ({ children }) => {
       setUser(user);
     }
     supabase.auth.onAuthStateChange((event, session) => {
-      console.log(event, session);
       if (event === "SIGNED_IN") {
         setUser(session?.user!);
       }
@@ -43,7 +42,9 @@ export const useSupabase = () => {
   const context = React.useContext(SupabaseContext);
 
   if (context === undefined) {
-    throw new Error("useLocaleDispatch must be used within a LocaleProvider");
+    throw new Error(
+      "useSupabase must be used within a SupabaseContext.Provider"
+    );
   }
 
   return context.sb;
@@ -53,7 +54,7 @@ export const useUser = () => {
   const context = React.useContext(SupabaseContext);
 
   if (context === undefined) {
-    throw new Error("useLocaleDispatch must be used within a LocaleProvider");
+    throw new Error("useUser must be used within a SupabaseContext.Provider");
   }
 
   return context.user;
